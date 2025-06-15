@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Conhecimentos Gerais</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+
+    h1 {
+      text-align: center;
+      color: #28a745;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    .options label {
+      display: block;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+
+    #submit {
+      padding: 10px 20px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #feedback {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    #score {
+      font-size: 20px;
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Quiz Conhecimentos Gerais</h1>
+  <div id="quiz-container">
+    <div id="question-container"></div>
+    <button id="submit">Enviar</button>
+    <div id="feedback"></div>
+    <div id="score"></div>
+  </div>
+
+  <script>
+    const quiz = [
+      {
+        pergunta: "Qual é o maior time do Rio de Janeiro?",
+        opcoes: ["Vasco", "Flamengo", "Fluminense", "Botafogo"],
+        correta: 2
+      },
+      {
+        pergunta: "Qual é o melhor meia do Brasil?",
+        opcoes: ["Arias", "Arrascaeta", "Veiga", "Gerson"],
+        correta: 0
+      },
+      {
+        pergunta: "Quem foi artilheiro da Libertadores de 2023?",
+        opcoes: ["Gabigol", "Cano", "Cavani", "Endrick"],
+        correta: 1
+      },
+      {
+        pergunta: "Quantos títulos brasileiro o Fluminense tem?",
+        opcoes: ["3", "2", "6", "4"],
+        correta: 3
+      },
+      {
+        pergunta: "Quantos títulos brasileiros o Cano tem?",
+        opcoes: ["1", "0", "3", "2"],
+        correta: 1
+      }
+    ];
+
+    let indiceAtual = 0;
+    let pontuacao = 0;
+
+    const questionContainer = document.getElementById("question-container");
+    const submitButton = document.getElementById("submit");
+    const feedback = document.getElementById("feedback");
+    const score = document.getElementById("score");
+
+    function mostrarPergunta() {
+      const q = quiz[indiceAtual];
+      feedback.textContent = "";
+      let html = `<div class="question"><p><strong>${q.pergunta}</strong></p><div class="options">`;
+
+      q.opcoes.forEach((opcao, i) => {
+        html += `<label><input type="radio" name="resposta" value="${i}"> ${opcao}</label>`;
+      });
+
+      html += "</div></div>";
+      questionContainer.innerHTML = html;
+    }
+
+    submitButton.addEventListener("click", () => {
+      const selecionada = document.querySelector('input[name="resposta"]:checked');
+
+      if (!selecionada) {
+        feedback.textContent = "Por favor, selecione uma resposta.";
+        feedback.style.color = "red";
+        return;
+      }
+
+      const resposta = parseInt(selecionada.value);
+      if (resposta === quiz[indiceAtual].correta) {
+        feedback.textContent = "Correto!";
+        feedback.style.color = "green";
+        pontuacao++;
+      } else {
+        feedback.textContent = "Incorreto!";
+        feedback.style.color = "red";
+      }
+
+      setTimeout(() => {
+        indiceAtual++;
+        if (indiceAtual < quiz.length) {
+          mostrarPergunta();
+        } else {
+          questionContainer.innerHTML = "";
+          submitButton.style.display = "none";
+          feedback.textContent = "";
+          score.textContent = `Você acertou ${pontuacao} de ${quiz.length} perguntas.`;
+        }
+      }, 1000);
+    });
+
+    mostrarPergunta();
+  </script>
+</body>
+</html>

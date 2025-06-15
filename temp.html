@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor de Temperatura</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #e3f2fd;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+    h1 {
+      text-align: center;
+      color: #0277bd;
+    }
+    input, select, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+    }
+    #resultado {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Conversor de Temperatura</h1>
+  <input type="number" id="valor" placeholder="Digite a temperatura">
+  <select id="tipo">
+    <option value="CtoF">Celsius para Fahrenheit</option>
+    <option value="FtoC">Fahrenheit para Celsius</option>
+  </select>
+  <button onclick="converter()">Converter</button>
+  <div id="resultado"></div>
+
+  <script>
+    function converter() {
+      const valor = parseFloat(document.getElementById('valor').value);
+      const tipo = document.getElementById('tipo').value;
+      let resultado;
+
+      if (isNaN(valor)) {
+        resultado = "Digite um valor válido!";
+      } else if (tipo === "CtoF") {
+        resultado = `${valor}°C = ${(valor * 9/5 + 32).toFixed(2)}°F`;
+      } else {
+        resultado = `${valor}°F = ${((valor - 32) * 5/9).toFixed(2)}°C`;
+      }
+
+      document.getElementById('resultado').textContent = resultado;
+    }
+  </script>
+</body>
+</html>
